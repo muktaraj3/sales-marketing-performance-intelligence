@@ -80,3 +80,31 @@ This document summarizes findings from the PostgreSQL analysis of the Maven Anal
 - The lowest-spending quartile (Q1) accounted for only 1.62%.
 
 **Business implication:** Spending is concentrated among the highest-spending customer group. This segmentation can help prioritize customer analysis and engagement strategies.
+
+### 10. Product Category Spending by Quartile
+
+- Q4 customers recorded the highest average spending across all six product categories.
+- Wine spending averaged 739.27 units in Q4.
+- Meat spending averaged 456.79 units in Q4.
+- Wine and meat were the two largest spending categories in Q4.
+
+**Business implication:** Wine and meat may be suitable categories to explore when developing product recommendations for high-spending customer segments.
+
+### 11. Previous Campaign Acceptance by Spending Quartile
+
+- Q4 customers averaged 0.77 accepted campaigns out of five.
+- Q3 averaged 0.25.
+- Q2 averaged 0.10.
+- Q1 averaged 0.08.
+
+**Business implication:** Higher-spending customers also showed greater previous campaign acceptance. This association may help identify customer segments for further campaign analysis.
+
+### 12. Latest Campaign Response by Spending Quartile
+
+- Q4 recorded a 30.00% response rate.
+- Q1 recorded a 5.54% response rate.
+- Q4 accounted for 168 of the 334 total responses (approximately 50.3%).
+- Q2 had a slightly higher response rate than Q3.
+
+**Business implication:** The highest-spending segment was substantially more responsive to the latest campaign. Spending quartiles may therefore be useful when evaluating campaign audience segments.
+
