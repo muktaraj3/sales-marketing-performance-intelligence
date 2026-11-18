@@ -259,3 +259,38 @@ SELECT
 FROM customer_spending
 GROUP BY income_group, sort_order
 ORDER BY sort_order;
+
+-- Q9. How is customer spending distributed across four quartiles?
+
+WITH customer_spending AS (
+    SELECT
+        customer_id,
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending
+    FROM clean.marketing_campaign
+),
+
+spending_quartiles AS (
+    SELECT
+        customer_id,
+        total_spending,
+        NTILE(4) OVER (
+            ORDER BY total_spending, customer_id
+        ) AS spending_quartile
+    FROM customer_spending
+)
+
+SELECT
+    spending_quartile,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(total_spending), 2) AS avg_spending,
+    SUM(total_spending) AS total_spending
+
+FROM spending_quartiles
+GROUP BY spending_quartile
+ORDER BY spending_quartile;
+
