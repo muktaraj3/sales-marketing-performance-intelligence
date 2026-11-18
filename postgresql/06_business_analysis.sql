@@ -419,3 +419,42 @@ FROM spending_quartiles
 GROUP BY spending_quartile
 ORDER BY spending_quartile;
 
+-- Q13. How does household composition relate to customer spending?
+
+WITH household_analysis AS (
+    SELECT
+        CASE
+            WHEN children_home = 0 AND teenagers_home = 0
+                THEN 'No Children'
+            WHEN children_home > 0 AND teenagers_home = 0
+                THEN 'Children Only'
+            WHEN children_home = 0 AND teenagers_home > 0
+                THEN 'Teenagers Only'
+            ELSE 'Both Children and Teenagers'
+        END AS household_segment,
+
+        CASE
+            WHEN children_home = 0 AND teenagers_home = 0 THEN 1
+            WHEN children_home > 0 AND teenagers_home = 0 THEN 2
+            WHEN children_home = 0 AND teenagers_home > 0 THEN 3
+            ELSE 4
+        END AS sort_order,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending
+
+    FROM clean.marketing_campaign
+)
+
+SELECT
+    household_segment,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(total_spending), 2) AS avg_customer_spending
+
+FROM household_analysis
+GROUP BY household_segment, sort_order
+ORDER BY sort_order;
