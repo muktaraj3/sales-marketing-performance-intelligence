@@ -108,3 +108,29 @@ This document summarizes findings from the PostgreSQL analysis of the Maven Anal
 
 **Business implication:** The highest-spending segment was substantially more responsive to the latest campaign. Spending quartiles may therefore be useful when evaluating campaign audience segments.
 
+### 13. Household Composition vs Customer Spending
+
+- Customers with no children or teenagers at home recorded the highest average spending: 1,106.03 units.
+- Teenagers-only households averaged 701.81 units.
+- Households with both children and teenagers averaged 222.59 units.
+- Children-only households averaged 185.80 units.
+
+**Business implication:** Household composition may be a useful segmentation variable when examining differences in customer spending.
+
+### 14. Household Composition vs Campaign Response
+
+- Customers with no children or teenagers at home recorded the highest response rate: 26.49%.
+- Children-only households recorded 13.08%.
+- Households with both children and teenagers recorded 10.30%.
+- Teenagers-only households recorded the lowest response rate: 8.09%.
+
+**Business implication:** Customers without children or teenagers at home showed higher campaign responsiveness in this dataset. This pattern can inform further audience analysis, but does not establish causation.
+
+### 15. Recency vs Customer Spending
+
+- Average spending remained relatively stable across recency groups.
+- Customers with 61–90 days since their last purchase averaged 625.19 units.
+- Customers with 0–30 days since their last purchase averaged 595.10 units.
+
+**Business implication:** Recency alone does not appear to be a strong differentiator of customer spending in this dataset.
+
