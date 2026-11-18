@@ -53,3 +53,30 @@ This document summarizes findings from the PostgreSQL analysis of the Maven Anal
 - Deal purchases averaged 2.33.
 
 **Business implication:** Store purchases represent the highest average purchase activity. These figures describe purchase methods and deal-related purchases, not verified marketing-channel attribution.
+
+### 7. Website Visits vs Web Purchases
+
+- Customers visiting the website 3 times per month averaged 4.51 web purchases.
+- Customers visiting 7 times averaged 3.64 web purchases.
+- The relationship was not consistently increasing across visit groups.
+
+**Business implication:** Higher website visit frequency does not automatically correspond to higher web purchase activity. Further investigation into customer browsing behaviour may be useful.
+
+### 8. Income vs Customer Spending
+
+- Customers earning below 30K averaged 72.18 spending units.
+- Customers in the 30K–60K group averaged 298.24 units.
+- Customers in the 60K–90K group averaged 1,185.36 units.
+- Customers earning above 90K averaged 1,603.96 units.
+
+**Business implication:** Higher income groups showed higher average spending in this dataset. This is an association, not proof that income causes higher spending.
+
+*Note: Customers with missing income and the flagged extreme income value were excluded from this comparison.*
+
+### 9. Customer Spending Quartiles
+
+- The dataset was divided into four equal-sized customer groups using SQL NTILE(4).
+- The highest-spending quartile (Q4) accounted for 61.53% of total recorded spending.
+- The lowest-spending quartile (Q1) accounted for only 1.62%.
+
+**Business implication:** Spending is concentrated among the highest-spending customer group. This segmentation can help prioritize customer analysis and engagement strategies.
