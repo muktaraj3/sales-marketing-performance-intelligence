@@ -294,3 +294,47 @@ FROM spending_quartiles
 GROUP BY spending_quartile
 ORDER BY spending_quartile;
 
+-- Q10. How does product category spending differ across spending quartiles?
+
+WITH customer_spending AS (
+    SELECT
+        customer_id,
+        wine_spending,
+        fruit_spending,
+        meat_spending,
+        fish_spending,
+        sweet_spending,
+        gold_spending,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending
+
+    FROM clean.marketing_campaign
+),
+
+spending_quartiles AS (
+    SELECT
+        *,
+        NTILE(4) OVER (
+            ORDER BY total_spending, customer_id
+        ) AS spending_quartile
+    FROM customer_spending
+)
+
+SELECT
+    spending_quartile,
+    ROUND(AVG(wine_spending), 2) AS avg_wine,
+    ROUND(AVG(fruit_spending), 2) AS avg_fruit,
+    ROUND(AVG(meat_spending), 2) AS avg_meat,
+    ROUND(AVG(fish_spending), 2) AS avg_fish,
+    ROUND(AVG(sweet_spending), 2) AS avg_sweet,
+    ROUND(AVG(gold_spending), 2) AS avg_gold
+
+FROM spending_quartiles
+GROUP BY spending_quartile
+ORDER BY spending_quartile;
+
