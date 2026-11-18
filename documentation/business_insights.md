@@ -134,3 +134,32 @@ This document summarizes findings from the PostgreSQL analysis of the Maven Anal
 
 **Business implication:** Recency alone does not appear to be a strong differentiator of customer spending in this dataset.
 
+### 16. Recency vs Latest Campaign Response
+
+- Customers with 0–30 days since their last purchase recorded a 23.90% response rate.
+- The 31–60 day group recorded 13.61%.
+- The 61–90 day group recorded 9.19%.
+- The 91–99 day group recorded the lowest response rate: 5.56%.
+
+**Business implication:** Recently active customers showed substantially higher campaign responsiveness. Recency may be a useful variable for identifying potential campaign audiences.
+
+### 17. Age vs Customer Spending
+
+- Customers aged 60+ recorded the highest average spending: 749.33 units.
+- Customers aged 50–59 averaged 684.08 units.
+- Customers under 30 averaged 609.15 units.
+- The 30–39 group recorded the lowest average spending: 519.60 units.
+
+**Business implication:** Older customer groups, particularly those aged 60+, showed higher average spending. Age can support segmentation, although it should not be treated as a standalone predictor.
+
+*Note: Age is estimated using 2014 as the reference year. Three records with suspicious birth years were excluded.*
+
+### 18. Age vs Latest Campaign Response
+
+- Customers under 30 recorded the highest response rate: 16.29%.
+- Customers aged 60+ followed at 15.82%.
+- The 50–59 group recorded the lowest response rate: 13.49%.
+- Differences between age groups were relatively modest.
+
+**Business implication:** Age alone does not appear to be a strong differentiator of campaign responsiveness. The age group with the highest average spending was not the group with the highest response rate.
+
