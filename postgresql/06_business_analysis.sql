@@ -338,3 +338,43 @@ FROM spending_quartiles
 GROUP BY spending_quartile
 ORDER BY spending_quartile;
 
+-- Q11. Does previous campaign acceptance differ across spending quartiles?
+
+WITH customer_spending AS (
+    SELECT
+        customer_id,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending,
+
+        accepted_campaign_1 +
+        accepted_campaign_2 +
+        accepted_campaign_3 +
+        accepted_campaign_4 +
+        accepted_campaign_5 AS campaigns_accepted
+
+    FROM clean.marketing_campaign
+),
+
+spending_quartiles AS (
+    SELECT
+        *,
+        NTILE(4) OVER (
+            ORDER BY total_spending, customer_id
+        ) AS spending_quartile
+    FROM customer_spending
+)
+
+SELECT
+    spending_quartile,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(campaigns_accepted), 2) AS avg_campaigns_accepted
+
+FROM spending_quartiles
+GROUP BY spending_quartile
+ORDER BY spending_quartile;
+
