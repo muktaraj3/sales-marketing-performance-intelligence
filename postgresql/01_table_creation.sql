@@ -1,0 +1,3 @@
+-- Sales & Marketing Performance Intelligence
+-- PostgreSQL Project
+-- 01: Table Creation
