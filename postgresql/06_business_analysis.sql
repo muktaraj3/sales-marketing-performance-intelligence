@@ -158,3 +158,38 @@ SELECT
 FROM clean.marketing_campaign
 
 ORDER BY acceptance_rate_pct DESC;
+
+-- Q6. Which purchase method is used most frequently?
+
+SELECT
+    'Store' AS purchase_method,
+    ROUND(AVG(store_purchases), 2) AS avg_purchases_per_customer,
+    SUM(store_purchases) AS total_purchases
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Web',
+    ROUND(AVG(web_purchases), 2),
+    SUM(web_purchases)
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Catalog',
+    ROUND(AVG(catalog_purchases), 2),
+    SUM(catalog_purchases)
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Deals',
+    ROUND(AVG(deal_purchases), 2),
+    SUM(deal_purchases)
+FROM clean.marketing_campaign
+
+ORDER BY avg_purchases_per_customer DESC;
+
