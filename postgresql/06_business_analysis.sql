@@ -39,3 +39,34 @@ SELECT
     ) AS spending_percentage
 FROM category_totals
 ORDER BY total_spending DESC;
+
+
+-- Q2. Who are the highest-spending customers?
+
+SELECT
+    customer_id,
+    country,
+    income,
+    (
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending
+    ) AS total_spending,
+
+    DENSE_RANK() OVER (
+        ORDER BY
+            wine_spending +
+            fruit_spending +
+            meat_spending +
+            fish_spending +
+            sweet_spending +
+            gold_spending DESC
+    ) AS spending_rank
+
+FROM clean.marketing_campaign
+ORDER BY total_spending DESC
+LIMIT 10;
+
