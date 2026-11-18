@@ -193,3 +193,31 @@ FROM clean.marketing_campaign
 
 ORDER BY avg_purchases_per_customer DESC;
 
+-- Q7. Does website visit frequency relate to web purchases?
+
+WITH visit_analysis AS (
+    SELECT
+        CASE
+            WHEN web_visits_month >= 10 THEN '10+'
+            ELSE web_visits_month::TEXT
+        END AS monthly_visits,
+
+        CASE
+            WHEN web_visits_month >= 10 THEN 10
+            ELSE web_visits_month
+        END AS sort_order,
+
+        web_purchases
+
+    FROM clean.marketing_campaign
+)
+
+SELECT
+    monthly_visits,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(web_purchases), 2) AS avg_web_purchases
+
+FROM visit_analysis
+GROUP BY monthly_visits, sort_order
+ORDER BY sort_order;
+
