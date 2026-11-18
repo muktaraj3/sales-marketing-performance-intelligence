@@ -378,3 +378,44 @@ FROM spending_quartiles
 GROUP BY spending_quartile
 ORDER BY spending_quartile;
 
+-- Q12. Does latest campaign response differ across spending quartiles?
+
+WITH customer_spending AS (
+    SELECT
+        customer_id,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending,
+
+        latest_campaign_response
+
+    FROM clean.marketing_campaign
+),
+
+spending_quartiles AS (
+    SELECT
+        *,
+        NTILE(4) OVER (
+            ORDER BY total_spending, customer_id
+        ) AS spending_quartile
+    FROM customer_spending
+)
+
+SELECT
+    spending_quartile,
+    COUNT(*) AS customer_count,
+    SUM(latest_campaign_response) AS responses,
+
+    ROUND(
+        AVG(latest_campaign_response) * 100,
+        2
+    ) AS response_rate_pct
+
+FROM spending_quartiles
+GROUP BY spending_quartile
+ORDER BY spending_quartile;
+
