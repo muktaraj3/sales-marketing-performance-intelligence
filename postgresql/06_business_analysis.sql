@@ -221,3 +221,41 @@ FROM visit_analysis
 GROUP BY monthly_visits, sort_order
 ORDER BY sort_order;
 
+-- Q8. How does customer income relate to spending?
+
+WITH customer_spending AS (
+    SELECT
+        CASE
+            WHEN income < 30000 THEN 'Below 30K'
+            WHEN income < 60000 THEN '30K-60K'
+            WHEN income < 90000 THEN '60K-90K'
+            ELSE 'Above 90K'
+        END AS income_group,
+
+        CASE
+            WHEN income < 30000 THEN 1
+            WHEN income < 60000 THEN 2
+            WHEN income < 90000 THEN 3
+            ELSE 4
+        END AS sort_order,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending
+
+    FROM clean.marketing_campaign
+    WHERE income IS NOT NULL
+      AND income_review = FALSE
+)
+
+SELECT
+    income_group,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(total_spending), 2) AS avg_customer_spending
+
+FROM customer_spending
+GROUP BY income_group, sort_order
+ORDER BY sort_order;
