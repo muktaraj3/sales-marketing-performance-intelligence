@@ -100,3 +100,20 @@ SELECT
 FROM clean.marketing_campaign
 GROUP BY country
 ORDER BY avg_spending_per_customer DESC;
+
+-- Q4. How does the latest campaign response differ by country?
+
+SELECT
+    country,
+    COUNT(*) AS customer_count,
+    SUM(latest_campaign_response) AS responses,
+
+    ROUND(
+        AVG(latest_campaign_response) * 100,
+        2
+    ) AS response_rate_pct
+
+FROM clean.marketing_campaign
+GROUP BY country
+ORDER BY response_rate_pct DESC;
+
