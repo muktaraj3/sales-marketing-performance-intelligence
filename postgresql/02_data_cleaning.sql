@@ -1,1 +1,3 @@
-
+-- Sales & Marketing Performance Intelligence
+-- PostgreSQL Project
+-- 02: Data Cleaning
