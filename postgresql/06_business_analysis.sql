@@ -117,3 +117,44 @@ FROM clean.marketing_campaign
 GROUP BY country
 ORDER BY response_rate_pct DESC;
 
+-- Q5. Which previous marketing campaign had the highest acceptance?
+
+SELECT
+    'Campaign 1' AS campaign,
+    SUM(accepted_campaign_1) AS accepted_customers,
+    ROUND(AVG(accepted_campaign_1) * 100, 2) AS acceptance_rate_pct
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Campaign 2',
+    SUM(accepted_campaign_2),
+    ROUND(AVG(accepted_campaign_2) * 100, 2)
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Campaign 3',
+    SUM(accepted_campaign_3),
+    ROUND(AVG(accepted_campaign_3) * 100, 2)
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Campaign 4',
+    SUM(accepted_campaign_4),
+    ROUND(AVG(accepted_campaign_4) * 100, 2)
+FROM clean.marketing_campaign
+
+UNION ALL
+
+SELECT
+    'Campaign 5',
+    SUM(accepted_campaign_5),
+    ROUND(AVG(accepted_campaign_5) * 100, 2)
+FROM clean.marketing_campaign
+
+ORDER BY acceptance_rate_pct DESC;
