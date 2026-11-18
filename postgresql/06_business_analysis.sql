@@ -70,3 +70,33 @@ FROM clean.marketing_campaign
 ORDER BY total_spending DESC
 LIMIT 10;
 
+-- Q3. How does customer spending differ across countries?
+
+SELECT
+    country,
+    COUNT(*) AS customer_count,
+
+    SUM(
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending
+    ) AS total_spending,
+
+    ROUND(
+        AVG(
+            wine_spending +
+            fruit_spending +
+            meat_spending +
+            fish_spending +
+            sweet_spending +
+            gold_spending
+        ),
+        2
+    ) AS avg_spending_per_customer
+
+FROM clean.marketing_campaign
+GROUP BY country
+ORDER BY avg_spending_per_customer DESC;
