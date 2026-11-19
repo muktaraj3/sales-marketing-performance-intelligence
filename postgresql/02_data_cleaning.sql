@@ -55,12 +55,11 @@ SELECT
         ELSE FALSE
     END AS birth_year_review,
 
-    CASE
-        WHEN income::NUMERIC = 666666
-        THEN TRUE
-        ELSE FALSE
-    END AS income_review
-
+   CASE
+    WHEN NULLIF(TRIM(income), '')::NUMERIC = 666666
+    THEN TRUE
+    ELSE FALSE
+END AS income_review
 FROM raw.marketing_campaign;
 
 -- Original raw table remains unchanged.
