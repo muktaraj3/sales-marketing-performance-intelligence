@@ -69,3 +69,21 @@ ALTER TABLE clean.fact_customer_marketing
 ADD CONSTRAINT fk_customer
 FOREIGN KEY (customer_id)
 REFERENCES clean.dim_customer(customer_id);
+
+-- 5. Test the relationship using INNER JOIN
+
+SELECT
+    c.customer_id,
+    c.country,
+    c.education,
+    f.income,
+    f.wine_spending,
+    f.meat_spending,
+    f.latest_campaign_response
+
+FROM clean.dim_customer c
+
+INNER JOIN clean.fact_customer_marketing f
+    ON c.customer_id = f.customer_id
+
+LIMIT 10;
