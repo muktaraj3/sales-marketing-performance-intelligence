@@ -458,3 +458,201 @@ SELECT
 FROM household_analysis
 GROUP BY household_segment, sort_order
 ORDER BY sort_order;
+
+-- Q14. Does household composition relate to latest campaign response?
+
+WITH household_analysis AS (
+    SELECT
+        CASE
+            WHEN children_home = 0 AND teenagers_home = 0
+                THEN 'No Children'
+            WHEN children_home > 0 AND teenagers_home = 0
+                THEN 'Children Only'
+            WHEN children_home = 0 AND teenagers_home > 0
+                THEN 'Teenagers Only'
+            ELSE 'Both Children and Teenagers'
+        END AS household_segment,
+
+        CASE
+            WHEN children_home = 0 AND teenagers_home = 0 THEN 1
+            WHEN children_home > 0 AND teenagers_home = 0 THEN 2
+            WHEN children_home = 0 AND teenagers_home > 0 THEN 3
+            ELSE 4
+        END AS sort_order,
+
+        latest_campaign_response
+
+    FROM clean.marketing_campaign
+)
+
+SELECT
+    household_segment,
+    COUNT(*) AS customer_count,
+    SUM(latest_campaign_response) AS responses,
+
+    ROUND(
+        AVG(latest_campaign_response) * 100,
+        2
+    ) AS response_rate_pct
+
+FROM household_analysis
+GROUP BY household_segment, sort_order
+ORDER BY sort_order;
+
+-- Q15. How does purchase recency relate to customer spending?
+
+WITH recency_analysis AS (
+    SELECT
+        CASE
+            WHEN recency_days <= 30 THEN '0-30 Days'
+            WHEN recency_days <= 60 THEN '31-60 Days'
+            WHEN recency_days <= 90 THEN '61-90 Days'
+            ELSE '91-99 Days'
+        END AS recency_group,
+
+        CASE
+            WHEN recency_days <= 30 THEN 1
+            WHEN recency_days <= 60 THEN 2
+            WHEN recency_days <= 90 THEN 3
+            ELSE 4
+        END AS sort_order,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending
+
+    FROM clean.marketing_campaign
+)
+
+SELECT
+    recency_group,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(total_spending), 2) AS avg_customer_spending
+
+FROM recency_analysis
+GROUP BY recency_group, sort_order
+ORDER BY sort_order;
+
+-- Q16. Does purchase recency relate to latest campaign response?
+
+WITH recency_analysis AS (
+    SELECT
+        CASE
+            WHEN recency_days <= 30 THEN '0-30 Days'
+            WHEN recency_days <= 60 THEN '31-60 Days'
+            WHEN recency_days <= 90 THEN '61-90 Days'
+            ELSE '91-99 Days'
+        END AS recency_group,
+
+        CASE
+            WHEN recency_days <= 30 THEN 1
+            WHEN recency_days <= 60 THEN 2
+            WHEN recency_days <= 90 THEN 3
+            ELSE 4
+        END AS sort_order,
+
+        latest_campaign_response
+
+    FROM clean.marketing_campaign
+)
+
+SELECT
+    recency_group,
+    COUNT(*) AS customer_count,
+    SUM(latest_campaign_response) AS responses,
+
+    ROUND(
+        AVG(latest_campaign_response) * 100,
+        2
+    ) AS response_rate_pct
+
+FROM recency_analysis
+GROUP BY recency_group, sort_order
+ORDER BY sort_order;
+
+-- Q17. How does customer age relate to spending?
+-- Age is estimated using 2014 as the reference year.
+-- Records with suspicious birth years are excluded.
+
+WITH age_analysis AS (
+    SELECT
+        CASE
+            WHEN 2014 - birth_year < 30 THEN 'Under 30'
+            WHEN 2014 - birth_year < 40 THEN '30-39'
+            WHEN 2014 - birth_year < 50 THEN '40-49'
+            WHEN 2014 - birth_year < 60 THEN '50-59'
+            ELSE '60+'
+        END AS age_group,
+
+        CASE
+            WHEN 2014 - birth_year < 30 THEN 1
+            WHEN 2014 - birth_year < 40 THEN 2
+            WHEN 2014 - birth_year < 50 THEN 3
+            WHEN 2014 - birth_year < 60 THEN 4
+            ELSE 5
+        END AS sort_order,
+
+        wine_spending +
+        fruit_spending +
+        meat_spending +
+        fish_spending +
+        sweet_spending +
+        gold_spending AS total_spending
+
+    FROM clean.marketing_campaign
+    WHERE birth_year_review = FALSE
+)
+
+SELECT
+    age_group,
+    COUNT(*) AS customer_count,
+    ROUND(AVG(total_spending), 2) AS avg_customer_spending
+
+FROM age_analysis
+GROUP BY age_group, sort_order
+ORDER BY sort_order;
+
+-- Q18. Does customer age relate to latest campaign response?
+-- Age is estimated using 2014 as the reference year.
+-- Records with suspicious birth years are excluded.
+
+WITH age_analysis AS (
+    SELECT
+        CASE
+            WHEN 2014 - birth_year < 30 THEN 'Under 30'
+            WHEN 2014 - birth_year < 40 THEN '30-39'
+            WHEN 2014 - birth_year < 50 THEN '40-49'
+            WHEN 2014 - birth_year < 60 THEN '50-59'
+            ELSE '60+'
+        END AS age_group,
+
+        CASE
+            WHEN 2014 - birth_year < 30 THEN 1
+            WHEN 2014 - birth_year < 40 THEN 2
+            WHEN 2014 - birth_year < 50 THEN 3
+            WHEN 2014 - birth_year < 60 THEN 4
+            ELSE 5
+        END AS sort_order,
+
+        latest_campaign_response
+
+    FROM clean.marketing_campaign
+    WHERE birth_year_review = FALSE
+)
+
+SELECT
+    age_group,
+    COUNT(*) AS customer_count,
+    SUM(latest_campaign_response) AS responses,
+
+    ROUND(
+        AVG(latest_campaign_response) * 100,
+        2
+    ) AS response_rate_pct
+
+FROM age_analysis
+GROUP BY age_group, sort_order
+ORDER BY sort_order;
