@@ -145,4 +145,84 @@ SWITCH(
     "Sweets", [Sweet Spending],
     "Fruits", [Fruit Spending]
 )
+```
 
+## 3. Customer Segmentation
+
+These calculated columns classify customers by total spending, spending quartile, age group, household composition and income segment. Income and income-review fields are brought into the Customers table using RELATED.
+
+```dax
+Customer Total Spending =
+'Marketing Performance'[wine_spending] +
+'Marketing Performance'[fruit_spending] +
+'Marketing Performance'[meat_spending] +
+'Marketing Performance'[fish_spending] +
+'Marketing Performance'[sweet_spending] +
+'Marketing Performance'[gold_spending]
+
+
+Spending Quartile =
+VAR CustomerRank =
+    RANKX(
+        ALL('Marketing Performance'),
+        'Marketing Performance'[Customer Total Spending],
+        ,
+        ASC,
+        SKIP
+    )
+VAR TotalCustomers =
+    COUNTROWS(ALL('Marketing Performance'))
+RETURN
+    "Q" &
+    CEILING(
+        DIVIDE(CustomerRank * 4, TotalCustomers),
+        1
+    )
+
+
+Age Group =
+VAR CustomerAge =
+    2014 - Customers[birth_year]
+RETURN
+    SWITCH(
+        TRUE(),
+        Customers[birth_year_review] = TRUE(), "Review Required",
+        CustomerAge < 30, "Under 30",
+        CustomerAge < 40, "30–39",
+        CustomerAge < 50, "40–49",
+        CustomerAge < 60, "50–59",
+        "60+"
+    )
+
+
+Household Type =
+SWITCH(
+    TRUE(),
+    Customers[children_home] = 0 &&
+    Customers[teenagers_home] = 0, "No Children",
+    Customers[children_home] > 0 &&
+    Customers[teenagers_home] = 0, "Children Only",
+    Customers[children_home] = 0 &&
+    Customers[teenagers_home] > 0, "Teenagers Only",
+    "Both"
+)
+
+
+Income =
+RELATED('Marketing Performance'[income])
+
+
+Income Review =
+RELATED('Marketing Performance'[income_review])
+
+
+Income Segment =
+SWITCH(
+    TRUE(),
+    ISBLANK(Customers[Income]), "Missing Income",
+    Customers[Income Review] = TRUE(), "Review Required",
+    Customers[Income] < 30000, "Under 30K",
+    Customers[Income] < 60000, "30K-60K",
+    Customers[Income] < 90000, "60K-90K",
+    "Above 90K"
+)
