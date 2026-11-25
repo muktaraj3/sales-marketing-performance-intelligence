@@ -77,7 +77,6 @@ DIVIDE(
 )
 ```
 
-
 ## 2. Product Spending Measures
 
 Individual measures were created for each product category.
