@@ -64,3 +64,52 @@ DIVIDE(
     0
 )
 
+## 2. Product Spending Measures
+
+Individual measures were created for each product category.
+
+### Wine Spending
+
+```dax
+Wine Spending =
+SUM('Marketing Performance'[wine_spending])
+
+Fruit Spending =
+SUM('Marketing Performance'[fruit_spending])
+
+Meat Spending =
+SUM('Marketing Performance'[meat_spending])
+
+Fish Spending =
+SUM('Marketing Performance'[fish_spending])
+
+Sweet Spending =
+SUM('Marketing Performance'[sweet_spending])
+
+Gold Spending =
+SUM('Marketing Performance'[gold_spending])
+
+Product Categories =
+DATATABLE(
+    "Product", STRING,
+    {
+        {"Wine"},
+        {"Meat"},
+        {"Gold"},
+        {"Fish"},
+        {"Sweets"},
+        {"Fruits"}
+    }
+)
+
+Product Category Spending =
+SWITCH(
+    SELECTEDVALUE('Product Categories'[Product]),
+    "Wine", [Wine Spending],
+    "Meat", [Meat Spending],
+    "Gold", [Gold Spending],
+    "Fish", [Fish Spending],
+    "Sweets", [Sweet Spending],
+    "Fruits", [Fruit Spending]
+)
+
