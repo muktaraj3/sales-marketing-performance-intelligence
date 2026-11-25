@@ -27,3 +27,40 @@ The DAX calculations are organised into:
 - Campaign performance measures
 - Purchase behaviour measures
 - Recency analysis
+
+## 1. KPI Measures
+
+### Total Customers
+
+```dax
+Total Customers =
+DISTINCTCOUNT(Customers[customer_id])
+
+Total Customer Spending =
+SUMX(
+    'Marketing Performance',
+    'Marketing Performance'[wine_spending] +
+    'Marketing Performance'[fruit_spending] +
+    'Marketing Performance'[meat_spending] +
+    'Marketing Performance'[fish_spending] +
+    'Marketing Performance'[sweet_spending] +
+    'Marketing Performance'[gold_spending]
+)
+
+Average Customer Spending =
+DIVIDE(
+    [Total Customer Spending],
+    [Total Customers],
+    0
+)
+
+Campaign Responders =
+SUM('Marketing Performance'[latest_campaign_response])
+
+Campaign Response Rate =
+DIVIDE(
+    [Campaign Responders],
+    [Total Customers],
+    0
+)
+
