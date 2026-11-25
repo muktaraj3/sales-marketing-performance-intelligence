@@ -346,3 +346,18 @@ SWITCH(
     "Deals", [Average Deal Purchases]
 )
 ```
+
+## 6. Recency Analysis
+
+This calculated column groups customers according to the number of days since their last purchase. These groups support the analysis of customer spending and latest campaign response rates by recency.
+
+```dax
+Recency Group =
+SWITCH(
+    TRUE(),
+    'Marketing Performance'[recency_days] <= 30, "0–30 Days",
+    'Marketing Performance'[recency_days] <= 60, "31–60 Days",
+    'Marketing Performance'[recency_days] <= 90, "61–90 Days",
+    "91–99 Days"
+)
+```
