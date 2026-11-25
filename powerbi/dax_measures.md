@@ -226,3 +226,69 @@ SWITCH(
     Customers[Income] < 90000, "60K-90K",
     "Above 90K"
 )
+```
+
+## 4. Campaign Performance Measures
+
+These measures calculate latest campaign responses, overall acceptance across the five previous campaigns, and individual campaign acceptance rates. The Campaigns table supports comparison across the five campaigns in a single visual.
+
+```dax
+Campaign Responders =
+SUM('Marketing Performance'[latest_campaign_response])
+
+
+Campaign Response Rate =
+DIVIDE(
+    [Campaign Responders],
+    [Total Customers],
+    0
+)
+
+
+Previous Campaign Acceptances =
+SUM('Marketing Performance'[accepted_campaign_1]) +
+SUM('Marketing Performance'[accepted_campaign_2]) +
+SUM('Marketing Performance'[accepted_campaign_3]) +
+SUM('Marketing Performance'[accepted_campaign_4]) +
+SUM('Marketing Performance'[accepted_campaign_5])
+
+
+Latest Campaign Responders =
+SUM('Marketing Performance'[latest_campaign_response])
+
+
+Previous Campaign Acceptance Rate =
+DIVIDE(
+    [Previous Campaign Acceptances],
+    [Total Customers] * 5,
+    0
+)
+
+
+Campaign Acceptance Rate =
+VAR SelectedCampaign =
+    SELECTEDVALUE(Campaigns[Campaign])
+VAR AcceptedCustomers =
+    SWITCH(
+        SelectedCampaign,
+        "Campaign 1", SUM('Marketing Performance'[accepted_campaign_1]),
+        "Campaign 2", SUM('Marketing Performance'[accepted_campaign_2]),
+        "Campaign 3", SUM('Marketing Performance'[accepted_campaign_3]),
+        "Campaign 4", SUM('Marketing Performance'[accepted_campaign_4]),
+        "Campaign 5", SUM('Marketing Performance'[accepted_campaign_5])
+    )
+RETURN
+    DIVIDE(AcceptedCustomers, [Total Customers], 0)
+
+
+Campaigns =
+DATATABLE(
+    "Campaign", STRING,
+    {
+        {"Campaign 1"},
+        {"Campaign 2"},
+        {"Campaign 3"},
+        {"Campaign 4"},
+        {"Campaign 5"}
+    }
+)
