@@ -292,3 +292,57 @@ DATATABLE(
         {"Campaign 5"}
     }
 )
+```
+
+## 5. Purchase Behaviour Measures
+
+These measures compare customer purchase activity across store, web, catalogue and deal purchases. Average purchase counts are used to compare typical customer behaviour across purchase types.
+
+```dax
+Total Store Purchases =
+SUM('Marketing Performance'[store_purchases])
+
+Total Web Purchases =
+SUM('Marketing Performance'[web_purchases])
+
+Total Catalogue Purchases =
+SUM('Marketing Performance'[catalog_purchases])
+
+Total Deal Purchases =
+SUM('Marketing Performance'[deal_purchases])
+
+
+Average Store Purchases =
+AVERAGE('Marketing Performance'[store_purchases])
+
+Average Web Purchases =
+AVERAGE('Marketing Performance'[web_purchases])
+
+Average Catalogue Purchases =
+AVERAGE('Marketing Performance'[catalog_purchases])
+
+Average Deal Purchases =
+AVERAGE('Marketing Performance'[deal_purchases])
+
+
+Purchase Types =
+DATATABLE(
+    "Purchase Type", STRING,
+    {
+        {"Store"},
+        {"Web"},
+        {"Catalogue"},
+        {"Deals"}
+    }
+)
+
+
+Average Purchases by Type =
+SWITCH(
+    SELECTEDVALUE('Purchase Types'[Purchase Type]),
+    "Store", [Average Store Purchases],
+    "Web", [Average Web Purchases],
+    "Catalogue", [Average Catalogue Purchases],
+    "Deals", [Average Deal Purchases]
+)
+```
