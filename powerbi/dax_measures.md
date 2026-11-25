@@ -35,7 +35,10 @@ The DAX calculations are organised into:
 ```dax
 Total Customers =
 DISTINCTCOUNT(Customers[customer_id])
+```
 
+### Total Customer Spending
+```dax
 Total Customer Spending =
 SUMX(
     'Marketing Performance',
@@ -46,49 +49,77 @@ SUMX(
     'Marketing Performance'[sweet_spending] +
     'Marketing Performance'[gold_spending]
 )
+```
 
+### Average Customer Spending
+``` dax
 Average Customer Spending =
 DIVIDE(
     [Total Customer Spending],
     [Total Customers],
     0
 )
+```
 
+### Campaign Responders
+```dax
 Campaign Responders =
 SUM('Marketing Performance'[latest_campaign_response])
+```
 
+### Campaign Response Rate
+```dax
 Campaign Response Rate =
 DIVIDE(
     [Campaign Responders],
     [Total Customers],
     0
 )
+```
+
 
 ## 2. Product Spending Measures
 
 Individual measures were created for each product category.
 
 ### Wine Spending
-
 ```dax
 Wine Spending =
 SUM('Marketing Performance'[wine_spending])
+```
 
+### Fruit Spending
+```dax
 Fruit Spending =
 SUM('Marketing Performance'[fruit_spending])
+```
 
+### Meat Spending
+```dax
 Meat Spending =
 SUM('Marketing Performance'[meat_spending])
+```
 
+### Fish Spending
+```dax
 Fish Spending =
 SUM('Marketing Performance'[fish_spending])
+```
 
+### Sweet Spending
+```dax
 Sweet Spending =
 SUM('Marketing Performance'[sweet_spending])
+```
 
+### Gold Spending
+```dax
 Gold Spending =
 SUM('Marketing Performance'[gold_spending])
+```
 
+### Product Categories
+```dax
 Product Categories =
 DATATABLE(
     "Product", STRING,
@@ -101,7 +132,10 @@ DATATABLE(
         {"Fruits"}
     }
 )
+```
 
+### Product Category Spending
+```dax
 Product Category Spending =
 SWITCH(
     SELECTEDVALUE('Product Categories'[Product]),
