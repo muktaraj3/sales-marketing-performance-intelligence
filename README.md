@@ -81,6 +81,27 @@ SQL techniques included aggregations, joins, CASE expressions, CTEs and window f
 ## Power BI Dashboard
 
 An interactive five-page Power BI report was developed to present customer and marketing performance insights.
+### Dashboard Preview
+
+**01. Executive Overview**
+
+![Executive Overview](Screenshots/01-ExceutiveOverview.png)
+
+**02. Customer Intelligence**
+
+![Customer Intelligence](Screenshots/02-CustomerIntelligence.png)
+
+**03. Campaign Effectiveness**
+
+![Campaign Effectiveness](Screenshots/03-CampaignEffectiveness.png)
+
+**04. Strategic Insights**
+
+![Strategic Insights](Screenshots/04-StrategicInsights.png)
+
+**05. Strategic Recommendations**
+
+![Strategic Recommendations](Screenshots/05-StrategicRecommendations.png)
 
 ### Dashboard Pages
 
